@@ -16,17 +16,17 @@ namespace Server
         }
 
         // for unary response
-        /* public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        public override Task<HelloReply> SayHelloUnary(HelloRequest request, ServerCallContext context)
         {
             System.Console.WriteLine($"user: {request.Name}");
             return Task.FromResult(new HelloReply
             {
-                Message = "Hello " + request.Name
+                Message = $"\nrespons to {request.Name}"
             });
-        } */
+        }
 
         // for server stream response
-        public override async Task SayHello(HelloRequest request, IServerStreamWriter<HelloReply> response, ServerCallContext context)
+        public override async Task SayHelloServerStream(HelloRequest request, IServerStreamWriter<HelloReply> response, ServerCallContext context)
         {
             for (int i = 0; i < 10; i++)
             {
