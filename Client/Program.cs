@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using Grpc.Net.Client;
 using System.Threading.Tasks;
 using Grpc.Core;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Client
 {
@@ -11,7 +13,7 @@ namespace Client
         static async Task Main(string[] args)
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-            using var channel =  GrpcChannel.ForAddress("http://192.168.1.228:5001"); // use your own open IP address and port
+            using var channel =  GrpcChannel.ForAddress($"http://{GetLocalIp()}:5001");
             var client  = new Greeter.GreeterClient(channel);
 
             // for Uniary call
@@ -25,13 +27,12 @@ namespace Client
 
             // server streaming
             
-            using var call=  client.SayHello (
+            using var call=  client.SayHelloServerStream (
                 new HelloRequest {Name= "Shorotshishir"}
             );
             while (await call.ResponseStream.MoveNext())
             {
-                Console.WriteLine($"Greetings {call.ResponseStream.Current.Message}"); 
-                
+                Console.WriteLine($"Greetings {call.ResponseStream.Current.Message}");   
             }
             
 
@@ -71,6 +72,18 @@ namespace Client
             
             Console.WriteLine("Press any key to exit...");
             // Console.ReadKey();
+        }
+
+        private static object GetLocalIp()
+        {
+            string localIP;
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
+            }
+            return localIP;
         }
     }
 }

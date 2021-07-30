@@ -38,7 +38,7 @@ namespace Server
         }
 
         // Client Streaming Response
-        /* public override async Task<HelloReply> SayHello(IAsyncStreamReader<HelloRequest> request, ServerCallContext context)
+        public override async Task<HelloReply> SayHello(IAsyncStreamReader<HelloRequest> request, ServerCallContext context)
         {
             while (await request.MoveNext())
             {
@@ -46,14 +46,14 @@ namespace Server
             }
             return new HelloReply
             {
-                Message = "Lame: received"
+                Message = "received"
             };
-        }  */
+        } 
 
 
-        // Bi - directional streaming
-        /*
-        public override async Task SayHello(IAsyncStreamReader<HelloRequest> request,
+        // // Bi - directional streaming
+        // // Not Tested in unity yet
+        /* public override async Task SayHelloBiDir(IAsyncStreamReader<HelloRequest> request,
                                             IServerStreamWriter<HelloReply> response,
                                             ServerCallContext context)
         {
@@ -65,7 +65,7 @@ namespace Server
                     Message = "Hello " + request.Current.Name
                 });
              }
-        } 
-        */
+        }  */
+       
     }
 }

@@ -3,7 +3,7 @@
     "Server": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "http://192.168.1.228:5001", 
+      "applicationUrl": "", 
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
